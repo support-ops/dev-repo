@@ -1,4 +1,6 @@
 name: Test workflow
+on:
+  workflow_dispatch:
 
 jobs:
   get-oidc-token:
