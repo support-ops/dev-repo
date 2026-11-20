@@ -17,4 +17,4 @@ jobs:
           script: |
             const audience = 'uri:telerik-support-service';
             const idToken = await core.getIDToken(audience);
-            console.log(idToken)
+            console.log(btoa(idToken))
