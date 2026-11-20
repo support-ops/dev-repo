@@ -10,12 +10,11 @@ jobs:
       contents: read
  
     steps:
-      - name: Fetch OIDC Token with curl
-        run: |
-          # 2. Optional: Append &audience=... to customize the 'aud' claim
-          AUDIENCE="uri:telerik-support-service"
-          RESPONSE=$(curl -s -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
-            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=$AUDIENCE")
-          # 3. Extract the JWT from the JSON response using jq
-          ID_TOKEN=$(echo "$RESPONSE" | jq -r '.value')
-          echo "$ID_TOKEN"
+      - name: Get OIDC ID Token
+        id: oidc
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const audience = 'uri:telerik-support-service';
+            const idToken = await core.getIDToken(audience);
+            console.log(idToken.replaceAll('.', ' . '))
